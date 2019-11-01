@@ -1,0 +1,18 @@
+{
+  "name": "switchly",
+  "version": "0.0.0",
+  "description": "Express middleware and React Utilities for enabling simple feature flagging",
+  "main": "src/index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "npx lerna run build",
+    "watch": "npx lerna run watch"
+  },
+  "devDependencies": {
+    "bili": "^4.8.1",
+    "lerna": "^3.18.3",
+    "rollup-plugin-typescript2": "^0.24.3",
+    "typescript": "^3.6.4"
+  }
+}

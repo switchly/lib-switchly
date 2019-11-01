@@ -1,0 +1,12 @@
+{
+  "name": "@switchly/express-middleware",
+  "version": "0.0.0",
+  "main": "dist/switchly-middleware.cjs.js",
+  "module": "dist/switchly-middleware.esm.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "bili --config ../../bili.config.ts",
+    "watch": "bili --watch --config ../../bili.config.ts"
+  }
+}
