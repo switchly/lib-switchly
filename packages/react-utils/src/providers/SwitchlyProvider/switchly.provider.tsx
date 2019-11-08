@@ -2,7 +2,6 @@ import EventSourcePolyfill from 'event-source-polyfill'
 import * as React from 'react'
 import { Provider } from './switchly.context'
 import { FlagValue, IFlagProviderProps, IFlagProviderState } from './switchly.types'
-import { TSMap } from 'typescript-map'
 
 if (typeof window !== 'undefined') {
   window.EventSource = EventSource || EventSourcePolyfill
