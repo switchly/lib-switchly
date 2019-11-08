@@ -2,6 +2,7 @@ import { Application } from 'express'
 import { LoggerheadConfig } from '@cornerstone-digital/loggerhead'
 
 export interface SwitchConfig {
+  id?: string
   key: string
   enabled: boolean
   switches?: SwitchConfig[]
@@ -12,28 +13,47 @@ export interface SwitchStreamEntry {
   enabled: boolean
 }
 
-export type SwitchlyDatastores = 'Mongo' | 'Redis'
+export enum SwitchlyDatastores {
+  Mongo = 'Mongo',
+  Redis = 'Redis'
+}
 
 export interface MongoDatastoreConfig {
-  url: string
+  host?: string;
+  port?: number;
+  user?: string;
+  password?: string;
+  database: string;
 }
 
 export interface RedisDatastoreConfig {
-  url: string
+  host?: string;
+  port?: number;
+  database: string;
 }
 
-export type SwitchlyLanguages = 'React' | 'Node' | 'JAVA' | '.NET' | 'TypeScript'
+export enum SwitchlyLanguages {
+  React = 'React',
+  Node = 'Node',
+  Java = 'Java',
+  DotNet = 'DotNet',
+  TypeScript = 'TypeScript'
+}
+
+export interface DatastoreConfig {
+  type: SwitchlyDatastores
+  dropDB?: boolean,
+  config: RedisDatastoreConfig | MongoDatastoreConfig
+}
 
 export interface SwitchlyConfig {
   environment: string
   routePrefix?: string
   offline?: boolean
   logger: LoggerheadConfig
-  datastore: {
-    type: SwitchlyDatastores
-    config: MongoDatastoreConfig | RedisDatastoreConfig
-  }
-  switches: SwitchConfig[]
+  datastore: DatastoreConfig
+  switches?: SwitchConfig[],
+  demoMode?: boolean
 }
 
 export interface EventData extends Application {

@@ -3,6 +3,10 @@
   "exclude": ["node_modules", "tests"],
   "include": ["src/**/*"],
   "compilerOptions": {
-    "declarationDir": "./dist"
+    "declarationDir": "./dist",
+    "typeRoots": [
+      "./node_modules/@types",
+      "src/types"
+    ]
   }
 }

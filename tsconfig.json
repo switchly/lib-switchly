@@ -7,7 +7,7 @@
     "lib": ["esnext", "dom"],
     "declaration": true,
     "declarationMap": true,
-    "jsx": "preserve",
+    "jsx": "react",
     "sourceMap": true,
     "removeComments": true,
     "importHelpers": true,
@@ -16,7 +16,7 @@
     "moduleResolution": "node",
     "typeRoots": [
       "./node_modules/@types",
-      "src/types"
+      "./src/types"
     ],
 
     /* Strict Type-Checking Options */

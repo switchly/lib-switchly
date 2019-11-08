@@ -1,6 +1,6 @@
 import express, { Application, Router } from 'express'
 import switchlyMiddleware from '../index'
-import { SwitchlyConfig } from '../types/index.types'
+import { SwitchlyConfig, SwitchlyDatastores } from '../types/index.types'
 import Loggerhead from '@cornerstone-digital/loggerhead'
 import Container from 'typedi'
 import LoggerService from '../services/logger/logger.service'
@@ -10,7 +10,7 @@ const router = Router()
 
 const config: SwitchlyConfig = {
   environment: process.env.NODE_ENV || 'local',
-  offline: true,
+  offline: false,
   routePrefix: '/basket',
   logger: {
     namespace: 'Switchly',
@@ -39,9 +39,11 @@ const config: SwitchlyConfig = {
     }
   },
   datastore: {
-    type: 'Redis',
+    type: SwitchlyDatastores.Redis,
     config: {
-      url: ''
+      host: 'localhost',
+      port: 6379,
+      database: 'switchly'
     }
   },
   switches: [
@@ -55,7 +57,23 @@ const config: SwitchlyConfig = {
           switches: [
             {
               key: 'sub-sub-feature',
-              enabled: true
+              enabled: true,
+              switches: [
+                {
+                  key: 'sub-sub-sub-feature',
+                  enabled: true
+                }
+              ]
+            },
+            {
+              key: 'sub-sub-feature1',
+              enabled: true,
+              switches: [
+                {
+                  key: 'sub-sub-sub-feature1',
+                  enabled: true
+                }
+              ]
             }
           ]
         }
