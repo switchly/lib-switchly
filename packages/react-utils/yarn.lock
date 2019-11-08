@@ -737,16 +737,6 @@
   resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.3.tgz#f060bf6eaafae4d56a7dac618980838b0696e2ab"
   integrity sha512-FmuxfCuolpLl0AnQ2NHSzoUKWEJDFl63qXjzdoWBVyFCXzMGm1spBzk7LeHNoVCiWCF7mRVms9e6jEV9+MoPbg==
 
-"@mattkrick/event-source-polyfill@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@mattkrick/event-source-polyfill/-/event-source-polyfill-0.1.0.tgz#af9e2735bbeda62a9526c2c35f67578443f8ebf9"
-  integrity sha512-rAUgU9OjRPHSzPDDG66KUfH9oYkrqi8qkHJ+snPuGT4VEBZrDapASCLtVl4WVHXSaY+SadWF7etE84QqXBlHuA==
-
-"@mattkrick/event-target-polyfill@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@mattkrick/event-target-polyfill/-/event-target-polyfill-0.1.0.tgz#a56a9775d757efac6552a2bfa71d95673d6e14ff"
-  integrity sha512-QgFBfC/fjTxNGFRYuk2utG1qzNW+tJ+g099WeSTd4/RaGT8HdaA0fcLB0j+3CaljGeNx3Wu6Lg7QLhZmvfMKvg==
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -5486,6 +5476,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typescript-map@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/typescript-map/-/typescript-map-0.0.7.tgz#69d1937af203d1c9a32fc20ee3d8813e8f1a745f"
+  integrity sha512-qLGAeshAnryHN1ycLS4nk+7195MYXbrCzI62bXl8TEqigD5otgHUGIdWsdn5MsbAX3ba5ZtkKEAM0LgaVUAdnQ==
 
 uncss@^0.17.0:
   version "0.17.2"

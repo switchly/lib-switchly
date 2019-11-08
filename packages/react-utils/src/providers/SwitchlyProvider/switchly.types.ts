@@ -1,4 +1,5 @@
 export interface FlagValue {
+  id: string
   key: string
   enabled: boolean
 }

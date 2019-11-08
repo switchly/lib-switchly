@@ -2,6 +2,7 @@ import EventSourcePolyfill from 'event-source-polyfill'
 import * as React from 'react'
 import { Provider } from './switchly.context'
 import { FlagValue, IFlagProviderProps, IFlagProviderState } from './switchly.types'
+import { TSMap } from 'typescript-map'
 
 if (typeof window !== 'undefined') {
   window.EventSource = EventSource || EventSourcePolyfill
@@ -9,11 +10,11 @@ if (typeof window !== 'undefined') {
 
 class SwitchlyProvider extends React.Component<IFlagProviderProps, IFlagProviderState> {
   private eventSource?: EventSource
-  private flags: { [key: string]: boolean }
+  private flags: FlagValue[]
   constructor(props: any) {
     super(props)
 
-    this.flags = {}
+    this.flags = []
     this.state = {
       flags: {}
     }
@@ -21,22 +22,43 @@ class SwitchlyProvider extends React.Component<IFlagProviderProps, IFlagProvider
 
   private featuresLoaded(flags: any) {
     this.setState({
-      flags
+      flags: this.flattenFlags(flags)
     })
   }
 
-  private updateFeature(flagData: FlagValue) {
-    let featureUpdated = false
-    
-    if (this.flags[flagData.key] !== flagData.enabled) {
-      this.flags[flagData.key] = flagData.enabled
+  flattenFlags (flags: FlagValue[]) {
+    const flattened: { [key: string]: boolean } = {}
 
-      featureUpdated = true
+    try {
+      flags.forEach((flag: FlagValue) => {
+        flattened[flag.key] = flag.enabled
+      })
+    } catch (e) {
+      console.error(e)
     }
 
-    if (featureUpdated) {
+    return flattened
+  }
+
+  private updateFlag (flagData: FlagValue) {
+    let flagUpdated = false
+    const updatedFlags = this.flags.map((flag) => {
+      if (flag.key === flagData.key && flag.enabled !== flagData.enabled) {
+        flag = {
+          ...flag,
+          ...flagData
+        }
+
+        flagUpdated = true
+      }
+
+      return flag
+    })
+
+    if (flagUpdated) {
+      this.flags = updatedFlags
       this.setState({
-        flags: this.flags
+        flags: this.flattenFlags(updatedFlags)
       })
     }
   }
@@ -58,7 +80,7 @@ class SwitchlyProvider extends React.Component<IFlagProviderProps, IFlagProvider
 
   private onFlagUpdated(event: MessageEvent) {
     const messageJson = this.parseEvent(event)
-    return this.updateFeature(messageJson.data)
+    return this.updateFlag(messageJson.data)
   }
 
   private attachEventHandlers() {
