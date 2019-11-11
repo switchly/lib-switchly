@@ -13,6 +13,8 @@ const tables: InanoSQLTableConfig[] = [
         "id:string": { pk: true },
         "name:string": {},
         "key:string": {},
+        "environment:string": {},
+        "project:string": {},
         "description:string": {},
         "active:bool": {},
         "defaultValue:bool": {},
@@ -52,6 +54,7 @@ class DatastoreService {
           })
 
           if (this.configService.getConfig().datastore.dropDB) {
+            console.log('dropping database')
             await nSQL('switches').query('delete').exec()  
           }
         } catch (error) {

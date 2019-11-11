@@ -9,7 +9,8 @@ const app: Application = express()
 const router = Router()
 
 const config: SwitchlyConfig = {
-  environment: process.env.NODE_ENV || 'local',
+  environment: 'local',
+  project: 'basket',
   offline: false,
   routePrefix: '/basket',
   logger: {
@@ -40,6 +41,7 @@ const config: SwitchlyConfig = {
   },
   datastore: {
     type: SwitchlyDatastores.Redis,
+    // dropDB: true,
     config: {
       host: 'localhost',
       port: 6379,

@@ -4,6 +4,8 @@ import { LoggerheadConfig } from '@cornerstone-digital/loggerhead'
 export interface SwitchConfig {
   id?: string
   key: string
+  environment?: string
+  project?: string
   enabled: boolean
   switches?: SwitchConfig[]
 }
@@ -48,11 +50,12 @@ export interface DatastoreConfig {
 
 export interface SwitchlyConfig {
   environment: string
+  project: string
   routePrefix?: string
   offline?: boolean
   logger: LoggerheadConfig
   datastore: DatastoreConfig
-  switches?: SwitchConfig[],
+  switches?: SwitchConfig[]
   demoMode?: boolean
 }
 

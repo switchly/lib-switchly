@@ -1,10 +1,11 @@
 import 'reflect-metadata'
 import { Router, Request, Response } from 'express'
-import { SwitchlyConfig } from './types/index.types'
+import { SwitchlyConfig, SwitchlyDatastores } from './types/index.types'
 import SwitchController from './api/modules/switches/switches.controller'
 import Container from 'typedi'
 import Loggerhead from '@cornerstone-digital/loggerhead'
 import LoggerService from './services/logger/logger.service'
+import getEnumValues from './utils/getEnumValues'
 
 const initControllers = (config: SwitchlyConfig) => {
   return {
@@ -29,5 +30,7 @@ const switchlyMiddleware = (router: Router, config: SwitchlyConfig): Router => {
 
   return router
 }
+
+export const switchlyDatastores: SwitchlyDatastores = getEnumValues(SwitchlyDatastores)
 
 export default switchlyMiddleware

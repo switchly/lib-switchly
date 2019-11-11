@@ -1,6 +1,6 @@
 {
   "name": "@cornerstone-digital/switchly-express-middleware",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.7",
   "main": "dist/package.cjs.js",
   "module": "dist/package.esm.js",
   "types": "./dist/index.d.ts",
@@ -10,6 +10,7 @@
     "json-server": "json-server ./.jsondb/data.json",
     "playground": "cross-env DEBUG=Switchly* nodemon --exec yarn start",
     "build:app": "",
+    "prebuild": "rm -rf dist",
     "build": "bili --config ../../bili.config.ts",
     "watch": "bili --watch --config ../../bili.config.ts"
   },
@@ -41,11 +42,14 @@
   },
   "dependencies": {
     "@cornerstone-digital/loggerhead": "^1.4.6",
+    "@nano-sql/adapter-redis": "^2.0.7",
+    "@nano-sql/core": "^2.3.7",
     "ajv": "^6.10.2",
     "event-source-polyfill": "^1.0.9",
     "express": "^4.17.1",
     "flat": "^5.0.0",
     "mongodb": "^3.3.3",
+    "mongodb-client-encryption": "^0.3.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-express-middleware": "^3.1.3",

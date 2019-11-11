@@ -3,6 +3,7 @@ import { Service } from 'typedi'
 
 const defaultConfig: SwitchlyConfig = {
   environment: process.env.NODE_ENV || 'local',
+  project: process.env.SWITCHLY_PROJECT_NAME || 'default',
   offline: true,
   routePrefix: '/basket',
   datastore: {

@@ -1,6 +1,6 @@
 {
   "name": "@cornerstone-digital/switchly-react-utils",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.6",
   "description": "React utils to support feature flagging written in TypeScript",
   "author": "Martin Egan <martingegan@gmail.com>",
   "homepage": "https://github.com/switchly/lib-switchly#readme",
@@ -12,6 +12,7 @@
     "dist"
   ],
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "bili --config ../../bili.config.ts",
     "watch": "bili --watch --config ../../bili.config.ts",
     "playground": "parcel ./src/playground/index.html"
@@ -21,6 +22,7 @@
     "url": "git+https://github.com/switchly/lib-switchly.git"
   },
   "dependencies": {
+    "@cornerstone-digital/switchly-express-middleware": "^0.1.0-alpha.4",
     "event-source-polyfill": "^1.0.9",
     "lodash.camelcase": "^4.3.0",
     "react": "^16.11.0",
