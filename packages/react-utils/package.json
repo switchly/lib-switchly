@@ -1,6 +1,6 @@
 {
   "name": "@cornerstone-digital/switchly-react-utils",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0-alpha.8",
   "description": "React utils to support feature flagging written in TypeScript",
   "author": "Martin Egan <martingegan@gmail.com>",
   "homepage": "https://github.com/switchly/lib-switchly#readme",

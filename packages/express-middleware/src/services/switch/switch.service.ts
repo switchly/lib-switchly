@@ -75,11 +75,18 @@ class SwitchService {
     return this.datastoreService.upsert('switches', this.switchData)
   }
 
+  public get environmentName(): string | undefined {
+    return this.configService.getConfig().environment ? this.configService.getConfig().environment : undefined
+  }
+
   public async syncSwitches() {
     if (this.config && this.config.switches) {
       this.logger.info('Syncing switches')
       // this.datastoreService.delete('switches')
-      const currentSwitches: SwitchConfig[] = await this.getSwitches()
+      const currentSwitches: SwitchConfig[] = await this.getSwitches(
+        this.configService.getConfig().project,
+        this.environmentName
+      )
       
       if (currentSwitches && currentSwitches.length) {
         currentSwitches.forEach((switchConfig: SwitchConfig) => {
@@ -102,13 +109,22 @@ class SwitchService {
     }
   }
 
-  public async getSwitches(): Promise<any> {
+  public async getSwitches(project: string, environment?: string, columns: string[] = []): Promise<any> {
     try {
-      const switches = await this.datastoreService.select('switches', [], [
-        ["environment", "=", this.configService.getConfig().environment],
-        "AND",
-        ["project", "=", this.configService.getConfig().project]
-      ])
+      const whereClause = []
+      const selectCols = columns ? columns : []
+      if (project) {
+        whereClause.push(["project", "=", project])
+      }
+
+      if (environment) {
+        if (whereClause.length > 0) {
+          whereClause.push("AND")
+        }
+        whereClause.push(["environment", "=", environment])
+      }
+      
+      const switches = await this.datastoreService.select('switches', selectCols, whereClause)
 
       return switches
     } catch (error) {

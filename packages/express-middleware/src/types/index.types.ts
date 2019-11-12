@@ -49,7 +49,7 @@ export interface DatastoreConfig {
 }
 
 export interface SwitchlyConfig {
-  environment: string
+  environment?: string
   project: string
   routePrefix?: string
   offline?: boolean

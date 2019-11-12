@@ -39,7 +39,10 @@ class SwitchController {
   }
 
   private async fetchRandomSwitch() {
-    const switches = await this.switchService.getSwitches()
+    const switches = await this.switchService.getSwitches(
+      this.configService.getConfig().project,
+      this.switchService.environmentName
+    )
     const keyArr = Object.keys(switches)
 
     return keyArr[Math.floor(Math.random() * keyArr.length)]
@@ -53,7 +56,10 @@ class SwitchController {
 
   public async getSwitchesList(_req: Request, res: Response): Promise<any> {
     this.logger.info('Getting switch list')
-    const switches = await this.switchService.getSwitches()
+    const switches = await this.switchService.getSwitches(
+      this.configService.getConfig().project,
+      this.switchService.environmentName
+    )
     return res.status(200).send(switches)
   }
 
@@ -70,22 +76,28 @@ class SwitchController {
     return res.status(200).send('Flag updated')
   }
 
+  public async enableStream(_req: Request, res: Response) {
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive'
+    })
+
+    res.write('\n')
+  }
+
   public async getStream(req: Request, res: Response): Promise<void> {
     this.logger.info('Switch stream connected')
     try {
-      req.socket.setNoDelay(true)
-      res.writeHead(200, {
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-        'Content-Type': 'text/event-stream',
-        'Access-Control-Allow-Origin': '*',
-        'Encoding-Type': 'chunked'
-      })
-
-      res.write('\n')
-      const switches = await this.switchService.getSwitches()
+      await this.enableStream(req, res)    
+  
+      const switches = await this.switchService.getSwitches(
+        this.configService.getConfig().project,
+        this.switchService.environmentName
+      )
+      
       this.constructSSE(res, 'flags:loaded', uuid.v4(), switches)
-
+  
       req.app.on('flag:event', (event: any) => {
         this.constructSSE(res, event.type, event.id, event.data)
 

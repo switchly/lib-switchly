@@ -1,7 +1,15 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
+import BrowserRouter from 'react-router-dom/BrowserRouter'
+import { renderRoutes } from 'react-router-config'
+import routes from './routes'
 
-const App = () => {
-  return <h1>React App</h1>
+const AppRouter = () => {
+  return (
+    <BrowserRouter>
+      {renderRoutes(routes)}
+    </BrowserRouter>
+  )
 }
 
-export default App
+ReactDOM.render(<AppRouter />, document.getElementById('root'))
