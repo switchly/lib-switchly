@@ -1,17 +1,15 @@
 import 'reflect-metadata'
-import { Router, Request, Response, NextFunction } from 'express'
-// import path from 'path'
-// import webpackDevMiddleware from 'webpack-dev-middleware'
-// import webpackHotMiddleware from 'webpack-hot-middleware'
-// import webpack from 'webpack'
-// import helmet from 'helmet'
+import express, { Router, Request, Response, NextFunction } from 'express'
 import Container from 'typedi'
 import Loggerhead from '@cornerstone-digital/loggerhead'
+import bodyParser from 'body-parser'
+import path from 'path'
 
 import { SwitchlyConfig, SwitchlyDatastores } from './types/index.types'
 import SwitchController from './api/modules/switches/switches.controller'
 import LoggerService from './services/logger/logger.service'
 import getEnumValues from './utils/getEnumValues'
+import SwitchService from './services/switch/switch.service'
 
 const initControllers = (config: SwitchlyConfig) => {
   return {
@@ -26,32 +24,26 @@ const switchlyMiddleware = (router: Router, config: SwitchlyConfig): Router => {
   const logger: Loggerhead = Container.get(LoggerService).getLogger('Switchly:Middleware')
 
   logger.info('Middlware Loaded')
+  let staticPath = path.resolve('node_modules/@cornerstone-digital/switchly-express-middleware/dist/app')
 
-  router.use((req: Request, _res: Response, next: NextFunction) => {
+  router.use(express.static(path.join(__dirname, staticPath)))
+  router.use(bodyParser.json({ limit: '2mb' }))
+  router.use(bodyParser.urlencoded({ limit: '2mb', extended: true }))
+  router.use(async (req: Request, _res: Response, next: NextFunction) => {
     req.app.disable('x-powered-by')
+    const switchService = Container.get(SwitchService)
+    const flags = await switchService.getSwitches(
+      config.project,
+      switchService.environmentName
+    )
+
+    req.app.set('flags', flags)
     next()
   })
-
-  // router.use(helmet())
-
-  // if (isProduction) {
-  //   // In real app better to use nginx for static assets
-  //   const httpHeaders = { maxAge: 31536000, redirect: false, lastModified: true };
-  //   router.use(express.static(path.resolve(__dirname, 'dist'), httpHeaders));
-  // } else {
-  //   const webpackConfig = require(path.join(__dirname, 'webpack.config.js'))
-  //   const compiler = webpack(webpackConfig);
-
-  //   router.use(
-  //     webpackDevMiddleware(compiler, {
-  //       publicPath: webpackConfig.output.publicPath,
-  //       serverSideRender: true,
-  //       stats: 'errors-only',
-  //       logLevel: 'error'
-  //     })
-  //   );
-  //   router.use(webpackHotMiddleware(compiler, { log: console.log }));
-  // }
+  
+  router.post(`${routePrefix}/switches/update`, (req: Request, res: Response) =>
+    controllers.SwitchController.updateFlag(req, res)
+  )
 
   router.get(`${routePrefix}/switches/list`, (req: Request, res: Response) =>
     controllers.SwitchController.getSwitchesList(req, res)
@@ -60,6 +52,10 @@ const switchlyMiddleware = (router: Router, config: SwitchlyConfig): Router => {
   router.get(`${routePrefix}/switches/stream`, (req: Request, res: Response) =>
     controllers.SwitchController.getStream(req, res)
   )
+
+  router.get(routePrefix, (_req: Request, res: Response) => {
+    res.sendFile('index.html', {root: path.join(__dirname, staticPath)});
+  })
 
   return router
 }

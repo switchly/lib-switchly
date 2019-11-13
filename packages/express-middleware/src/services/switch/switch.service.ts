@@ -72,6 +72,7 @@ class SwitchService {
   }
 
   private async syncRedis(): Promise<any> {
+    this.logger.debug('Syncing with Redis')
     return this.datastoreService.upsert('switches', this.switchData)
   }
 
@@ -79,9 +80,31 @@ class SwitchService {
     return this.configService.getConfig().environment ? this.configService.getConfig().environment : undefined
   }
 
+  public async updateSwitch(project: string, environment: string, key: string, enabled: boolean) {
+    this.logger.debug('Updating Switch', key)
+    const switchData = await this.switchConfig.get(key)
+    switchData.enabled = enabled
+    return this.datastoreService.upsert('switches', switchData, [
+      ["key", "=", key],
+      "AND",
+      ["project", "=", project],
+      "AND",
+      ["environment", "=", environment]
+    ])
+  }
+
+  public async getSwitch(project: string, environment: string, key: string) {
+    return this.datastoreService.select('switches', [], [
+      ["key", "=", key],
+      "AND",
+      ["project", "=", project],
+      "AND",
+      ["environment", "=", environment]
+    ])
+  }
+
   public async syncSwitches() {
     if (this.config && this.config.switches) {
-      this.logger.info('Syncing switches')
       // this.datastoreService.delete('switches')
       const currentSwitches: SwitchConfig[] = await this.getSwitches(
         this.configService.getConfig().project,

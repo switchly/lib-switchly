@@ -9,7 +9,7 @@ const app: Application = express()
 const router = Router()
 
 const config: SwitchlyConfig = {
-  environment: 'production',
+  environment: 'local',
   project: 'basket',
   offline: false,
   routePrefix: '/basket',

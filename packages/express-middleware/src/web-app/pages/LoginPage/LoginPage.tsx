@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react'
+import * as React from 'react'
 
-class LoginPage extends PureComponent {
-  render(): JSX.Element {
+class LoginPage extends React.PureComponent {
+  public render() {
     return <h1>Login Page</h1>
   }
 }

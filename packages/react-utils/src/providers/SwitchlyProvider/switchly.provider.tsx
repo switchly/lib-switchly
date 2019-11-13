@@ -3,8 +3,10 @@ import * as React from 'react'
 import { Provider } from './switchly.context'
 import { FlagValue, IFlagProviderProps, IFlagProviderState } from './switchly.types'
 
-if (typeof window !== 'undefined') {
-  window.EventSource = EventSource || EventSourcePolyfill
+if (typeof window !== 'undefined' && !window.EventSource) {
+  window.EventSource = EventSourcePolyfill;
+} else if (typeof window === 'undefined') {
+  global.EventSource = EventSourcePolyfill
 }
 
 class SwitchlyProvider extends React.Component<IFlagProviderProps, IFlagProviderState> {

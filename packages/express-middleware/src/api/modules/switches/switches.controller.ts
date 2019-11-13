@@ -64,7 +64,12 @@ class SwitchController {
   }
 
   public async updateFlag(req: Request, res: Response): Promise<any> {
-
+    await this.switchService.updateSwitch(
+      req.body.project,
+      req.body.environment,
+      req.body.key,
+      req.body.enabled
+    )
     req.app.emit(
       'flag:event',
       this.createEvent('flag:updated', {
@@ -73,7 +78,13 @@ class SwitchController {
       })
     )
 
-    return res.status(200).send('Flag updated')
+    const updatedSwitch = await this.switchService.getSwitch(
+      req.body.project,
+      req.body.environment,
+      req.body.key
+    )
+
+    return res.status(200).send(updatedSwitch)
   }
 
   public async enableStream(_req: Request, res: Response) {
@@ -87,7 +98,7 @@ class SwitchController {
   }
 
   public async getStream(req: Request, res: Response): Promise<void> {
-    this.logger.info('Switch stream connected')
+    this.logger.debug('Switch stream connected')
     try {
       await this.enableStream(req, res)    
   
@@ -95,10 +106,15 @@ class SwitchController {
         this.configService.getConfig().project,
         this.switchService.environmentName
       )
-      
+
       this.constructSSE(res, 'flags:loaded', uuid.v4(), switches)
   
       req.app.on('flag:event', (event: any) => {
+        this.logger.debug('Flag Event Fired')
+        this.logger.debug('event.id:', event.id)
+        this.logger.debug('event.type:', event.type)
+        this.logger.debug('event.data:', event.data)
+
         this.constructSSE(res, event.type, event.id, event.data)
 
         return this

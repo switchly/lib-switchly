@@ -1,6 +1,6 @@
 {
   "name": "@cornerstone-digital/switchly-react-utils",
-  "version": "0.1.0-alpha.8",
+  "version": "0.1.0-alpha.11",
   "description": "React utils to support feature flagging written in TypeScript",
   "author": "Martin Egan <martingegan@gmail.com>",
   "homepage": "https://github.com/switchly/lib-switchly#readme",
@@ -15,6 +15,7 @@
     "prebuild": "rm -rf dist",
     "build": "bili --config ../../bili.config.ts",
     "watch": "bili --watch --config ../../bili.config.ts",
+    "playground:build": "parcel build ./src/playground/index.html",
     "playground": "parcel ./src/playground/index.html"
   },
   "repository": {
