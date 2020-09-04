@@ -40,7 +40,7 @@
     "jest": "^24.9.0",
     "jest-config": "^24.9.0",
     "json-server": "^0.15.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "nodemon": "^1.19.4",
     "parcel": "^1.12.4",
     "rimraf": "^3.0.0",
